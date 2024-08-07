@@ -19,7 +19,7 @@ function onMouseMove(e) {
     if (!isDragging) return;
     const deltaX = e.clientX - startX;
     const deltaY = e.clientY - startY;
-    currentX -= deltaY * 0.1; // Invert the vertical movement
+    currentX -= deltaY * 0.1;
     currentY += deltaX * 0.1;
     cube.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg)`;
     startX = e.clientX;
@@ -46,10 +46,11 @@ function onTouchStart(e) {
 }
 
 function onTouchMove(e) {
+    e.preventDefault(); // Prevent scrolling on touch
     if (e.touches.length === 1 && isDragging) {
         const deltaX = e.touches[0].clientX - startX;
         const deltaY = e.touches[0].clientY - startY;
-        currentX -= deltaY * 0.1; // Invert the vertical movement
+        currentX -= deltaY * 0.1;
         currentY += deltaX * 0.1;
         cube.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg)`;
         startX = e.touches[0].clientX;
@@ -60,7 +61,7 @@ function onTouchMove(e) {
         const newDistance = Math.sqrt(dx * dx + dy * dy);
         const scaleChange = newDistance / startDistance;
         scale = initialScale * scaleChange;
-        scale = Math.min(Math.max(.5, scale), 2); // Clamp the scale value
+        scale = Math.min(Math.max(.5, scale), 2);
         scene.style.transform = `scale(${scale})`;
         startDistance = newDistance;
     }
@@ -72,8 +73,8 @@ function onTouchEnd() {
 
 function onWheel(e) {
     e.preventDefault();
-    scale += e.deltaY * -0.005; // Reduce sensitivity here
-    scale = Math.min(Math.max(.5, scale), 2); // Clamp the scale value
+    scale += e.deltaY * -0.005;
+    scale = Math.min(Math.max(.5, scale), 2);
     scene.style.transform = `scale(${scale})`;
 }
 
@@ -84,3 +85,8 @@ document.addEventListener('wheel', onWheel);
 document.addEventListener('touchstart', onTouchStart);
 document.addEventListener('touchmove', onTouchMove);
 document.addEventListener('touchend', onTouchEnd);
+
+// Prevent touchmove from causing the page to scroll
+document.body.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+}, { passive: false });
