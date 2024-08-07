@@ -3,7 +3,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #333;
+    background: linear-gradient(135deg, #000000 0%, #2c3e50 100%);
     margin: 0;
     color: #fff;
     font-family: Arial, sans-serif;
@@ -33,7 +33,7 @@ body {
     width: 200px;
     height: 200px;
     background: rgba(255, 255, 255, 0.9);
-    border: 1px solid #ccc;
+    border: 2px solid #fff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,6 +43,7 @@ body {
     padding: 20px;
     box-sizing: border-box;
     cursor: pointer;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
 .face.front  { transform: translateZ(100px); }
