@@ -1,5 +1,9 @@
 const cube = document.querySelector('.cube');
 const scene = document.querySelector('.scene');
+const modal = document.getElementById('modal');
+const modalText = document.getElementById('modal-text');
+const closeModal = document.getElementById('close-modal');
+
 let isDragging = false;
 let startX, startY;
 let currentX = 0;
@@ -73,7 +77,7 @@ function onTouchEnd() {
 
 function onWheel(e) {
     e.preventDefault();
-    scale += e.deltaY * -0.005;
+    scale += e.deltaY * -0.01; // Increase sensitivity here
     scale = Math.min(Math.max(.5, scale), 2);
     scene.style.transform = `scale(${scale})`;
 }
@@ -90,3 +94,33 @@ document.addEventListener('touchend', onTouchEnd);
 document.body.addEventListener('touchmove', function(e) {
     e.preventDefault();
 }, { passive: false });
+
+// Handle modal display when a face is clicked
+const faceContents = {
+    "Text Tips": "Content for Text Tips...",
+    "Link Tips": "Content for Link Tips...",
+    "Table Tips": "Content for Table Tips...",
+    "Image Tips": "Content for Image Tips...",
+    "Media Tips": "Content for Media Tips...",
+    "Layout Tips": "Content for Layout Tips..."
+};
+
+document.querySelectorAll('.face').forEach(face => {
+    face.addEventListener('click', function() {
+        const label = this.getAttribute('aria-label');
+        modalText.innerHTML = faceContents[label]; // Set the content based on the face clicked
+        modal.style.display = 'block'; // Show the modal
+    });
+});
+
+// Close the modal when the 'X' is clicked
+closeModal.addEventListener('click', function() {
+    modal.style.display = 'none';
+});
+
+// Close the modal if the user clicks outside of the modal content
+window.addEventListener('click', function(event) {
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+});
